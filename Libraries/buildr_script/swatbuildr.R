@@ -12,8 +12,10 @@
 # ------------------------------------------------------------------
 #If necessary, install Whitebox Tools with this command (remove the # before use).
 #whitebox::install_whitebox()
-# ------------------------------------------------------------------
-# setwd('Libraries/bildr_script')
+# # ------------------------------------------------------------------
+# setwd('Libraries/buildr_script')
+# setwd('G:/CS6/full_workflow_cs6')
+
 # Load paths and parameter settings --------------------------------
 # source('../../settings.R')
 
@@ -168,7 +170,9 @@ build_single_aquifer_files(data_path)
 ## where <name> must be the name of a point int the vector layer
 ## and <interval> must be one of 'const', 'yr', 'mon', or 'day'
 ## depending on the time intervals in the input data.
-add_point_sources(point_path, data_path, max_point_dist)
+if(!is.null(point_path)) {
+  add_point_sources(point_path, data_path, max_point_dist)
+}
 
 # Create SWAT+ sqlite database -------------------------------------
 ## Write the SWAT+Editor project database. The database will be located 

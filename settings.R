@@ -24,12 +24,14 @@ end_year <- 2021
 ## Path to weather data
 ## Description of functions and how data example was prepared is on this webpage
 ## https://biopsichas.github.io/SWATprepR/articles/weather.html
-weather_path <- paste0(data_path, '/for_prepr/weather_data.xlsx')
+weather_path <- paste0(data_path, '/for_prepr/meteo_data.rds')
 
 ## Path to point data
 ## Description of functions and how data example was prepared is on this webpage
 ## https://biopsichas.github.io/SWATprepR/articles/psources.html
-pnt_path <- paste0(data_path, '/for_prepr/pnt_data.xlsx')
+
+pnt_path <- NULL
+# pnt_path <- paste0(data_path, '/for_prepr/pnt_data.xlsx')
 
 ## Other settings
 
@@ -58,15 +60,15 @@ txt_path <- paste0(project_path, "/", project_name, "/txt")
 
 # Input data -------------------------------------------------------
 ## DEM raster layer path
-dem_path <- paste0(out_path, buildr_data, 'CS6_DEM_SI_HU.tif')
+dem_path <- paste0(out_path, buildr_data, 'dem_copernicus.tif')
 
 ##Soil raster layer and soil tables paths
-soil_layer_path  <- paste0(out_path, buildr_data, 'soils.tif')
+soil_layer_path  <- paste0(out_path, buildr_data, 'soil.tif')
 soil_lookup_path <- paste0(out_path, buildr_data, 'Soils_LookupTable.csv')
 soil_data_path   <- paste0(out_path, buildr_data, 'Usersoil_Kobilje.csv')
 
 ## Land input vector layer path
-land_path <- paste0(out_path, buildr_data, 'CS6_LUSE_Improved.shp')
+land_path <- paste0(out_path, buildr_data, 'land.shp')
 
 ## Channel input vector layer path 
 channel_path <- paste0(out_path, buildr_data, 'CS6_Streams.shp')
@@ -77,7 +79,8 @@ channel_path <- paste0(out_path, buildr_data, 'CS6_Streams.shp')
 basin_path <- bound_path <- paste0(out_path, buildr_data, 'CS6_WatBoundary.shp')
 
 ## Path to point source location layer
-point_path <- paste0(out_path, buildr_data, 'WWTP.shp')
+point_path <- NULL
+# point_path <- paste0(out_path, buildr_data, 'WWTP.shp')
 
 # Settings ---------------------------------------------------------
 ## Project layers
@@ -105,7 +108,7 @@ id_res_out <- NULL
 ## objects. Circuit routing will be checked. If an error due to circuit 
 ## routing is triggered, then 'frc_thres' must be increased to remove 
 ## connectivities that may cause this issue.
-frc_thres <- 0.3
+frc_thres <- 0.4
 
 ## Define wetland land uses. Default the wetland land uses from the SWAT+ 
 ## plants.plt data base are defined as wetland land uses. Wetland land uses
@@ -127,11 +130,11 @@ farmr_i_data <- paste0(data_path, "/for_farmr_input/")
 # Define input files------------------------------------------------------------
 
 # land-use crop map shapefile
-lu_shp <- paste0(out_path, farmr_i_data, 'Land_crops_CS5.shp') 
+lu_shp <- paste0(out_path, farmr_i_data, 'lu_crops.shp') 
 # crop management .csv table
-mgt_csv <- paste0(out_path, farmr_i_data, 'CS5_mgt_crops.csv') 
+mgt_csv <- paste0(out_path, farmr_i_data, 'CS6_mgt_crops.csv') 
 # generic land use management .csv table
-lu_generic_csv <- paste0(out_path, farmr_i_data, 'CS5_mgt_crops_generic.csv')
+lu_generic_csv <- paste0(out_path, farmr_i_data, 'CS6_mgt_crops_generic.csv')
 
 
 ## Simulation period

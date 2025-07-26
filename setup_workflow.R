@@ -1,7 +1,7 @@
 ## Workflow for Uncalibrated Setup Preparation ---------------------------------
 ## 
-## Version 0.0.8
-## Date: 2024-12-17
+## Version 0.0.9
+## Date: 2025-07-26
 ## Developers: Svajunas Plunge    svajunas_plunge@sggw.edu.pl
 ##             Christoph Schürz   christoph.schuerz@ufz.de
 ##             Micheal Strauch    michael.strauch@ufz.de
@@ -75,14 +75,15 @@ if(length(db_path)>1){
 # met_int <- interpolate(met, "Data/for_buildr/basin.shp", 
 #                        "Data/for_buildr/DEM.tif", 5000) 
 
+
 ## Loading weather data and downloading atmospheric deposition
-met <- load_template(weather_path, 4326)
-
-## Fixed input values 
-met$data$ID2$RELHUM$RELHUM <- ifelse(met$data$ID2$RELHUM$RELHUM >= 0,
-                                     met$data$ID2$RELHUM$RELHUM/100, 
-                                     met$data$ID2$RELHUM$RELHUM)
-
+# met <- load_template(weather_path, 4326)
+# 
+# ## Fixed input values 
+# met$data$ID2$RELHUM$RELHUM <- ifelse(met$data$ID2$RELHUM$RELHUM >= 0,
+#                                      met$data$ID2$RELHUM$RELHUM/100, 
+#                                      met$data$ID2$RELHUM$RELHUM)
+met <- readRDS(weather_path)
 ## Calculating weather generator statistics
 wgn <- prepare_wgn(met)
 
@@ -145,10 +146,15 @@ link_aquifer_channels(dir_path)
 ## Description of how data should be prepared (template) is on this webpage
 ## https://biopsichas.github.io/SWATprepR/articles/psources.html
 
-## Load data from template
-pnt_data <- load_template(pnt_path)
-## Add to the model
-prepare_ps(pnt_data, dir_path, constant = TRUE)
+if(!is.null(pnt_path)){
+  ## Load data from template
+  pnt_data <- load_template(pnt_path)
+  ## Add to the model
+  prepare_ps(pnt_data, dir_path, constant = TRUE)
+} else {
+  ## If no point sources data is provided, the script will not run
+  print("No point sources data provided. Skipping this step.")
+}
 
 ##------------------------------------------------------------------------------
 ## 9) Running SWATfamR'er input preparation script
@@ -177,7 +183,7 @@ file.remove(paste0(in_dir, "/", files))
 ##------------------------------------------------------------------------------
 # 
 # ## Reading the file 
-# mgt <- paste0(out_dir, "/farmR_input.csv")
+mgt <- paste0(out_dir, "/farmR_input.csv")
 # mgt_file <- read.csv(mgt)
 # 
 # ## Updating farmR_input.csv for providing management schedules in drained areas
@@ -222,7 +228,7 @@ if(!file.exists(paste0(dir_path, '/hru-data.hru.bkp0'))) {
 hru_data <- SWATtunR::read_tbl(paste0(dir_path, "/hru-data.hru.bkp0"))
 hru_data$soil_plant_init <- "soilplant1"
 hru_data_fmt <- c('%8s', '%-14s', rep('%18s', 8))
-write_tbl(hru_data, paste0(dir_path, '/hru-data.hru'), fmt = hru_data_fmt)
+SWATreadR:::write_tbl(hru_data, paste0(dir_path, '/hru-data.hru'), fmt = hru_data_fmt)
 
 ##------------------------------------------------------------------------------
 ## 13) Updating time.sim
@@ -280,7 +286,7 @@ fertilizer.frt <- SWATtunR::read_tbl(paste0(dir_path, "/fertilizer.frt.bkp0"))
 fertilizer.frt[nrow(fertilizer.frt)+1,] <- list("comp_manure", 0.0021, 0.0016, 0.0017, 0.008, 0.99, "fresh_manure", "Comp_FreshManure")
 fertilizer.frt[nrow(fertilizer.frt)+1,] <- list("7:20:30", 0.02, 0.08728, 0, 0, 0, "null", "NPK")
 fertilizer_frt_fmt <- c('%-18s', rep('%12s', 5), '%18s', '%-30s')
-write_tbl(fertilizer.frt, paste0(dir_path, '/fertilizer.frt'), fmt = fertilizer_frt_fmt)
+SWATreadR:::write_tbl(fertilizer.frt, paste0(dir_path, '/fertilizer.frt'), fmt = fertilizer_frt_fmt)
 
 if(!file.exists(paste0(dir_path, '/tillage.til.bak0'))) {
   copy_file_version(dir_path, 'tillage.til', file_version = 0)
@@ -288,7 +294,7 @@ if(!file.exists(paste0(dir_path, '/tillage.til.bak0'))) {
 tillage.til <- SWATtunR::read_tbl(paste0(dir_path, "/tillage.til.bkp0"))
 tillage.til[nrow(tillage.til )+1,] <- list("plow25", 0.95, 250, 75, 0, 0, "plowingoperation25cm")
 tillage_til_fmt <- c('%-18s', rep('%12s', 5), '%-40s')
-write_tbl(tillage.til, paste0(dir_path, '/tillage.til'), fmt = tillage_til_fmt)
+SWATreadR:::write_tbl(tillage.til, paste0(dir_path, '/tillage.til'), fmt = tillage_til_fmt)
 
 ## Generating .farm project
 if(startsWith(as.character(packageVersion("SWATfarmR")), "4.")){
