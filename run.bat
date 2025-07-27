@@ -1,0 +1,1 @@
+"C:\Program Files\R\R-4.2.1\bin\Rscript.exe" setup_workflow.R
