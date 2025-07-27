@@ -68,6 +68,7 @@ soil_lookup_path <- paste0(out_path, buildr_data, 'Soils_LookupTable.csv')
 soil_data_path   <- paste0(out_path, buildr_data, 'Usersoil_Kobilje.csv')
 
 ## Land input vector layer path
+# land_path <- paste0(out_path, buildr_data, 'land.shp')
 land_path <- paste0(out_path, buildr_data, 'land.shp')
 
 ## Channel input vector layer path 
