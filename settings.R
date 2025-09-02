@@ -148,7 +148,7 @@ hru_crops <- 'agrl'
 
 ## Multi-year farmland grass
 ## Did you define any multi-year farmland grass schedules? 'y' (yes), 'n' (no)
-m_yr_sch_existing <- 'y'
+m_yr_sch_existing <- 'n'
 
 ## If yes, define also the following variables. If not, skip next four lines
 crop_myr <- 'fesc' # prefix of multi-year schedules in management file

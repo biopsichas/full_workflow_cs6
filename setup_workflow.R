@@ -68,8 +68,17 @@ if(length(db_path)>1){
  stop(paste0("You have more than one database named ", 
              paste0(project_name, ".sqlite in you working directory. 
                     Please remove/rename or set path to db manually!!")))
+} else if (length(db_path) == 0) {
+  stop("No database found!")
 } else {
-  zip(paste0(res_path,"/db_backup.zip"), db_path)
+  # Define destination path inside res_path
+  dest_db_path <- file.path(res_path, paste0(project_name, ".sqlite"))
+  # Copy database to res_path
+  file.copy(db_path, dest_db_path, overwrite = TRUE)
+  # Create zip in res_path
+  zip(file.path(res_path, "db_backup.zip"), dest_db_path)
+  # Delete the copied .sqlite file from res_path
+  file.remove(dest_db_path)
 }
 
 # met_int <- interpolate(met, "Data/for_buildr/basin.shp", 
@@ -314,9 +323,12 @@ frm$add_variable(api, "api", asgn)
 
 ## Reading schedules, scheduling operations and writing management files
 frm$read_management(mgt, discard_schedule = TRUE)
-frm$schedule_operations(start_year = st_year, end_year = end_year, 
+frm$schedule_operations(start_year = st_year, end_year = end_year,
                         replace = 'all')
-frm$write_operations(start_year = st_year, end_year = end_year)
+
+# undebug(frm$schedule_operations)
+# undebug(frm$schedule_operation)
+# options(error = recover)  # options(error = NULL)
 
 ##------------------------------------------------------------------------------
 ## 17) Dealing with unconnected reservoirs 

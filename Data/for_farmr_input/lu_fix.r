@@ -39,3 +39,16 @@ lu_sf_w <- land_sf %>%
 
 write_sf(land, "G:/CS6/full_workflow_cs6/Data/for_buildr/land.shp")
 write_sf(lu_sf_w, "G:/CS6/full_workflow_cs6/Data/for_farmr_input/lu_crops.shp")
+
+
+# fornames(lu_sf_w[2:36])
+# 
+# x <- lu_sf_w %>% 
+#   select(-lu) %>%
+#   st_drop_geometry() 
+# c <- c()
+# for(i in names(x)){
+#   print(unique(x[i])[[1]])
+#   c <- c(c, unique(na.omit(x[i][[1]])))
+# }
+# unique(c)
