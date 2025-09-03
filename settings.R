@@ -140,7 +140,7 @@ lu_generic_csv <- paste0(out_path, farmr_i_data, 'CS6_mgt_crops_generic.csv')
 
 ## Simulation period
 start_y <- st_year #starting year (consider at least 3 years for warm-up!)
-end_y <- ifelse(end_year > 2020, 2020, end_year) #ending year
+end_y <- end_year #ending year
 
 ## Prefix of cropland hrus (all names of hrus with a crop rotation must begin
 ## with this prefix in column 'lu' of your land use map)
