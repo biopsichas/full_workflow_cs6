@@ -62,7 +62,7 @@ source(paste0(lib_path, '/buildr_script/swatbuildr.R'), chdir=TRUE)
 ## https://biopsichas.github.io/SWATprepR/articles/weather.html
 
 ## Identifying path to the database
-db_path <- list.files(path = getwd(), pattern = paste0(project_name, ".sqlite"), 
+db_path <- list.files(path = res_path, pattern = paste0(project_name, ".sqlite"), 
                       recursive = TRUE, full.names = TRUE)
 if(length(db_path)>1){
  stop(paste0("You have more than one database named ", 
@@ -325,9 +325,10 @@ frm$add_variable(api, "api", asgn)
 frm$read_management(mgt, discard_schedule = TRUE)
 frm$schedule_operations(start_year = st_year, end_year = end_year,
                         replace = 'all')
+# save.image(file = "my_environment.RData")
+frm$write_operations(start_year = st_year, end_year = end_year)
 
 # undebug(frm$schedule_operations)
-# undebug(frm$schedule_operation)
 # options(error = recover)  # options(error = NULL)
 
 ##------------------------------------------------------------------------------
