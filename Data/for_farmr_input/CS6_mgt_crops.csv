@@ -24,7 +24,7 @@ pump,4,22,5,2,tillage,chisplow,,
 pump,5,1,5,10,plant,pump,,
 pump,5,2,5,11,fertilizer,7:20:30,broadcast,300
 pump,6,1,6,10,fertilizer,elem_n,broadcast,43
-pump,9,15,10,15,harvest_only,pump,seed,
+pump,9,15,10,15,harvest_only,pump,vegetables,
 pump,9,15,10,15,kill_only,pump,,
 pump_cons,,,,,skip,,,
 pump_cons,4,20,4,30,fertilizer,comp_manure,broadcast,15000
@@ -32,7 +32,7 @@ pump_cons,4,22,5,2,tillage,chisplow,,
 pump_cons,5,1,5,10,plant,pump,,
 pump_cons,5,2,5,11,fertilizer,7:20:30,broadcast,300
 pump_cons,6,1,6,10,fertilizer,elem_n,broadcast,43
-pump_cons,9,15,10,15,harvest_only,pump,seed,
+pump_cons,9,15,10,15,harvest_only,pump,vegetables,
 pump_cons,9,15,10,15,kill_only,pump,,
 csil,,,,,skip,,,
 csil,5,1,5,15,fertilizer,comp_manure,broadcast,15000

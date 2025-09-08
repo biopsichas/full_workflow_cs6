@@ -69,10 +69,10 @@ soil_data_path   <- paste0(out_path, buildr_data, 'Usersoil_Kobilje.csv')
 
 ## Land input vector layer path
 # land_path <- paste0(out_path, buildr_data, 'land.shp')
-land_path <- paste0(out_path, buildr_data, 'land.shp')
+land_path <- paste0(out_path, buildr_data, 'land_update.shp')
 
 ## Channel input vector layer path 
-channel_path <- paste0(out_path, buildr_data, 'CS6_Streams.shp')
+channel_path <- paste0(out_path, buildr_data, 'CS6_Streams_update.shp')
 # channel_path <- paste0(out_path, buildr_data, "Pesnica_full_streams_reduced.shp")
 
 ## Catchment boundary vector layer path, all layers will be masked by the
@@ -131,7 +131,7 @@ farmr_i_data <- paste0(data_path, "/for_farmr_input/")
 # Define input files------------------------------------------------------------
 
 # land-use crop map shapefile
-lu_shp <- paste0(out_path, farmr_i_data, 'lu_crops.shp') 
+lu_shp <- paste0(out_path, farmr_i_data, 'lu_crops_update.shp') 
 # crop management .csv table
 mgt_csv <- paste0(out_path, farmr_i_data, 'CS6_mgt_crops.csv') 
 # generic land use management .csv table

@@ -369,15 +369,15 @@ writeLines(hydrology_res, paste0(dir_path, "/", "hydrology.res"))
 ## 18) Updating any other files
 ##------------------------------------------------------------------------------
 
-##For instance hydrology.hyd
-if(!file.exists(paste0(dir_path, '/hydrology.hyd.bkp0'))) {
-  copy_file_version(dir_path, 'hydrology.hyd', file_version = 0)
-}
-
-hydrology_hyd <- SWATtunR::read_tbl(paste0(dir_path, "/hydrology.hyd.bkp0"))
-hydrology_hyd$harg_pet <- 1.1
-hydrology_hyd <- mutate_if(hydrology_hyd, is.double, ~sprintf("%0.5f",.))
-SWATreadR:::write_tbl(hydrology_hyd, paste0(dir_path, '/hydrology.hyd'), fmt = c('%-14s', rep('%12s', 14)))
+# ##For instance hydrology.hyd
+# if(!file.exists(paste0(dir_path, '/hydrology.hyd.bkp0'))) {
+#   copy_file_version(dir_path, 'hydrology.hyd', file_version = 0)
+# }
+# 
+# hydrology_hyd <- SWATtunR::read_tbl(paste0(dir_path, "/hydrology.hyd.bkp0"))
+# hydrology_hyd$harg_pet <- 1.1
+# hydrology_hyd <- mutate_if(hydrology_hyd, is.double, ~sprintf("%0.5f",.))
+# SWATreadR:::write_tbl(hydrology_hyd, paste0(dir_path, '/hydrology.hyd'), fmt = c('%-14s', rep('%12s', 14)))
 
 ##------------------------------------------------------------------------------
 ## 19) Running final SWAT model pre-calibrated setup
