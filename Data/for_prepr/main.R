@@ -87,10 +87,23 @@ met_lst[["data"]][["ID1"]][["WNDSPD"]] <- wnd
 slr <-  read_meteo_file(paste0(my_path, "Rak_slr.txt")) %>%
   rename(SLR = value)
 
+slr2 <-  read.table(paste0(my_path, "CS6_SLR.txt"), sep = "\t", header = TRUE) %>% 
+  mutate(date = as.Date(date, format = "%Y-%m-%d")) %>% 
+  rename(DATE = date, SLR = solar_radiation) %>% 
+  select(DATE, SLR)
+
+slr_comp <- bind_rows(slr %>% mutate(status = "original"), slr2 %>% mutate(status = "alternative"))
+
+ggplot(slr_comp %>% filter(SLR>-99), aes(x = DATE, y = SLR, color = status)) +
+  geom_line() +
+  labs(title = "Solar Radiation", x = "Date", y = "Solar Radiation (MJ/m^2)") +
+  theme_minimal()
+
 ggplot(slr %>% filter(SLR>0), aes(x = DATE, y = SLR)) +
   geom_line() +
   labs(title = "Solar Radiation", x = "Date", y = "Solar Radiation (MJ/m^2)") +
   theme_minimal()
-met_lst[["data"]][["ID3"]][["SLR"]] <- slr
+
+met_lst[["data"]][["ID3"]][["SLR"]] <- slr2
 
 saveRDS(met_lst, "meteo_data.rds")
