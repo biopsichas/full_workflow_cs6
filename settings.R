@@ -30,8 +30,7 @@ weather_path <- paste0(data_path, '/for_prepr/meteo_data.rds')
 ## Description of functions and how data example was prepared is on this webpage
 ## https://biopsichas.github.io/SWATprepR/articles/psources.html
 
-pnt_path <- NULL
-# pnt_path <- paste0(data_path, '/for_prepr/pnt_data.xlsx')
+pnt_path <- paste0(data_path, '/for_prepr/pnt_data.xlsx')
 
 ## Other settings
 
@@ -80,8 +79,7 @@ channel_path <- paste0(out_path, buildr_data, 'CS6_Streams_update.shp')
 basin_path <- bound_path <- paste0(out_path, buildr_data, 'CS6_WatBoundary.shp')
 
 ## Path to point source location layer
-point_path <- NULL
-# point_path <- paste0(out_path, buildr_data, 'WWTP.shp')
+point_path <- paste0(out_path, buildr_data, 'WWTP.shp')
 
 # Settings ---------------------------------------------------------
 ## Project layers
