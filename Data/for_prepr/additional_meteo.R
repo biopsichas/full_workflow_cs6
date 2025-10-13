@@ -1,4 +1,10 @@
+library(dplyr)
+library(sf)
+library(tidyr)
+library(SWATprepR)
+
 met_lst <- readRDS("Data/for_prepr/meteo_data.rds")
+d_pth <- "Data/for_prepr/additional_meteo/"
 
 ## The function to read the meteorological data files
 read_meteo_file <- function(txt_file){
@@ -19,14 +25,91 @@ read_meteo_file <- function(txt_file){
   return(yy)
 }
 
-
+# Add new stations to the existing meteo list
 stations_df <- data.frame(
   ID = paste0("ID", c(4, 5, 6, 7, 11, 12, 21, 22, 23)),
   Name = c("Lenti-Mahomfa", "Redics", "Szilvágy", "rad_7", "rad_11", 
            "rad_12", "rad_21", "rad_22", "rad_23"),
   Elevation = c(150, 150, 150, 150, 150, 150, 150, 150, 150),
   Source = "online",
-  Lat = c(46,593132, 46.68, 46.65),
-  Long = c(16.47, 16.39, 16.19)
+  Lat = c(46.593132, 46.679370, 46.730593, 46.8, 46.7, 46.8, 46.6, 46.7, 46.8),
+  Long = c(16.570974, 16.404680, 16.625895, 16.3, 16.4, 16.4, 16.5, 16.5, 16.5)
 ) %>%
   sf::st_as_sf(coords = c("Long", "Lat"), crs = 4326, remove = FALSE)
+
+# Combine with existing stations
+met_lst$stations <- rbind(met_lst$stations, stations_df)
+mapview::mapview(met_lst$stations)
+
+# Add temperature data
+for(st in c('7', '11', '12', '21', '22', '23')){
+  tmp <- read_meteo_file(paste0(d_pth, 'Kebele_tmp_', st, ".txt")) |> 
+    separate(value, into = c("TMP_MIN", "TMP_MAX"), sep = "\t") |> 
+    mutate(TMP_MIN = as.numeric(TMP_MIN), TMP_MAX = as.numeric(TMP_MAX))
+  met_lst[["data"]][[paste0("ID", st)]][["TMP_MIN"]] <- tmp[, c("DATE", "TMP_MIN")]
+  met_lst[["data"]][[paste0("ID", st)]][["TMP_MAX"]] <- tmp[, c("DATE", "TMP_MAX")]
+}
+
+plot_weather(met_lst, "TMP_MAX")
+plot_weather(met_lst, "TMP_MIN")
+
+# Add relative humidity data
+for(st in c('7', '11', '12', '21', '22', '23')){
+  tmp <- read_meteo_file(paste0(d_pth, 'Kebele_hum_', st, ".txt")) |> 
+    rename(RELHUM = value) |> 
+    mutate(RELHUM = ifelse(RELHUM > 1, RELHUM/100, RELHUM))
+  met_lst[["data"]][[paste0("ID", st)]][["RELHUM"]] <- tmp
+}
+
+plot_weather(met_lst, "RELHUM")
+
+# Add precipitation data
+for(st in c('7', '11', '12', '22', '23')){
+  tmp <- read_meteo_file(paste0(d_pth, 'Kebele_prec_', st, ".txt")) |> 
+    rename(PCP = value) |> 
+    mutate(PCP = as.numeric(PCP))
+  met_lst[["data"]][[paste0("ID", st)]][["PCP"]] <- tmp
+}
+
+tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Lenti-Mahomfa_P.txt')) |> 
+  rename(PCP = value) |> 
+  mutate(PCP = as.numeric(PCP))
+met_lst[["data"]][[paste0("ID4")]][["PCP"]] <- tmp
+
+tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Redics_P.txt')) |> 
+  rename(PCP = value) |> 
+  mutate(PCP = as.numeric(PCP))
+met_lst[["data"]][[paste0("ID5")]][["PCP"]] <- tmp
+
+tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Szilvágy_P.txt')) |> 
+  rename(PCP = value) |> 
+  mutate(PCP = as.numeric(PCP))
+met_lst[["data"]][[paste0("ID6")]][["PCP"]] <- tmp
+
+plot_weather(met_lst, "PCP")
+plot_weather(met_lst, "PCP", "month", "sum")
+
+# Add wind speed data
+for(st in c('7', '11', '12', '21', '22', '23')){
+  tmp <- read_meteo_file(paste0(d_pth, 'Kebele_wind_', st, ".txt")) |> 
+    rename(WNDSPD = value) |> 
+    mutate(WNDSPD = as.numeric(WNDSPD))
+  met_lst[["data"]][[paste0("ID", st)]][["WNDSPD"]] <- tmp
+}
+
+plot_weather(met_lst, "WNDSPD")
+plot_weather(met_lst, "WNDSPD", "month", "mean")
+
+# Add solar radiation data
+for(st in c('7', '11', '12', '21', '22', '23')){
+  tmp <- read_meteo_file(paste0(d_pth, 'Kebele_rad_', st, ".txt")) |> 
+    rename(SLR = value) |> 
+    mutate(SLR = as.numeric(SLR))
+  met_lst[["data"]][[paste0("ID", st)]][["SLR"]] <- tmp
+} 
+
+plot_weather(met_lst, "SLR")
+plot_weather(met_lst, "SLR", "month", "mean")
+
+saveRDS(met_lst, "Data/for_prepr/meteo_data_plus.rds")
+

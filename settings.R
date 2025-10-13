@@ -24,7 +24,7 @@ end_year <- 2021
 ## Path to weather data
 ## Description of functions and how data example was prepared is on this webpage
 ## https://biopsichas.github.io/SWATprepR/articles/weather.html
-weather_path <- paste0(data_path, '/for_prepr/meteo_data.rds')
+weather_path <- paste0(data_path, '/for_prepr/meteo_data_plus.rds')
 
 ## Path to point data
 ## Description of functions and how data example was prepared is on this webpage
