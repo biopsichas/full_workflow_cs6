@@ -45,7 +45,13 @@ mapview::mapview(met_lst$stations)
 for(st in c('7', '11', '12', '21', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_tmp_', st, ".txt")) |> 
     separate(value, into = c("TMP_MIN", "TMP_MAX"), sep = "\t") |> 
-    mutate(TMP_MIN = as.numeric(TMP_MIN), TMP_MAX = as.numeric(TMP_MAX))
+    mutate(TMP_MIN = as.numeric(TMP_MIN), TMP_MAX = as.numeric(TMP_MAX)) |> 
+    mutate(TMP_MIN = ifelse(TMP_MIN < -40 | TMP_MIN > 50, NA, TMP_MIN),
+           TMP_MAX = ifelse(TMP_MAX < -40 | TMP_MAX > 50, NA, TMP_MAX)) |> 
+    mutate(TMP_MIN = ifelse(TMP_MIN > TMP_MAX, NA, TMP_MIN),
+           TMP_MAX = ifelse(TMP_MAX < TMP_MIN, NA, TMP_MAX)) |> 
+    mutate(TMP_MIN = ifelse(is.na(TMP_MIN), -99, TMP_MIN),
+           TMP_MAX = ifelse(is.na(TMP_MAX), -99, TMP_MAX))
   met_lst[["data"]][[paste0("ID", st)]][["TMP_MIN"]] <- tmp[, c("DATE", "TMP_MIN")]
   met_lst[["data"]][[paste0("ID", st)]][["TMP_MAX"]] <- tmp[, c("DATE", "TMP_MAX")]
 }
@@ -57,7 +63,9 @@ plot_weather(met_lst, "TMP_MIN")
 for(st in c('7', '11', '12', '21', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_hum_', st, ".txt")) |> 
     rename(RELHUM = value) |> 
-    mutate(RELHUM = ifelse(RELHUM > 1, RELHUM/100, RELHUM))
+    mutate(RELHUM = ifelse(RELHUM > 1, RELHUM/100, RELHUM)) |> 
+    mutate(RELHUM = ifelse(RELHUM < 0 | RELHUM > 1, -99, RELHUM)) |> 
+    mutate(RELHUM = ifelse(is.na(RELHUM), -99, RELHUM))
   met_lst[["data"]][[paste0("ID", st)]][["RELHUM"]] <- tmp
 }
 
@@ -67,23 +75,31 @@ plot_weather(met_lst, "RELHUM")
 for(st in c('7', '11', '12', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_prec_', st, ".txt")) |> 
     rename(PCP = value) |> 
-    mutate(PCP = as.numeric(PCP))
+    mutate(PCP = as.numeric(PCP)) |> 
+    mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
+    mutate(PCP = ifelse(is.na(PCP), -99, PCP))
   met_lst[["data"]][[paste0("ID", st)]][["PCP"]] <- tmp
 }
 
 tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Lenti-Mahomfa_P.txt')) |> 
   rename(PCP = value) |> 
-  mutate(PCP = as.numeric(PCP))
+  mutate(PCP = as.numeric(PCP)) |> 
+  mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
+  mutate(PCP = ifelse(is.na(PCP), -99, PCP))
 met_lst[["data"]][[paste0("ID4")]][["PCP"]] <- tmp
 
 tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Redics_P.txt')) |> 
   rename(PCP = value) |> 
-  mutate(PCP = as.numeric(PCP))
+  mutate(PCP = as.numeric(PCP)) |> 
+  mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
+  mutate(PCP = ifelse(is.na(PCP), -99, PCP))
 met_lst[["data"]][[paste0("ID5")]][["PCP"]] <- tmp
 
 tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Szilvágy_P.txt')) |> 
   rename(PCP = value) |> 
-  mutate(PCP = as.numeric(PCP))
+  mutate(PCP = as.numeric(PCP)) |> 
+  mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
+  mutate(PCP = ifelse(is.na(PCP), -99, PCP))
 met_lst[["data"]][[paste0("ID6")]][["PCP"]] <- tmp
 
 plot_weather(met_lst, "PCP")
@@ -93,9 +109,13 @@ plot_weather(met_lst, "PCP", "month", "sum")
 for(st in c('7', '11', '12', '21', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_wind_', st, ".txt")) |> 
     rename(WNDSPD = value) |> 
-    mutate(WNDSPD = as.numeric(WNDSPD))
+    mutate(WNDSPD = as.numeric(WNDSPD)) |>
+    mutate(WNDSPD = ifelse(WNDSPD < 0 | WNDSPD > 30, -99, WNDSPD)) |>
+    mutate(WNDSPD = ifelse(is.na(WNDSPD), -99, WNDSPD))
   met_lst[["data"]][[paste0("ID", st)]][["WNDSPD"]] <- tmp
 }
+
+met_lst[["data"]][["ID1"]][["WNDSPD"]] <- NULL
 
 plot_weather(met_lst, "WNDSPD")
 plot_weather(met_lst, "WNDSPD", "month", "mean")
@@ -104,7 +124,9 @@ plot_weather(met_lst, "WNDSPD", "month", "mean")
 for(st in c('7', '11', '12', '21', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_rad_', st, ".txt")) |> 
     rename(SLR = value) |> 
-    mutate(SLR = as.numeric(SLR))
+    mutate(SLR = as.numeric(SLR)) |> 
+    mutate(SLR = ifelse(SLR < 0 | SLR > 50, -99, SLR)) |>
+    mutate(SLR = ifelse(is.na(SLR), -99, SLR))
   met_lst[["data"]][[paste0("ID", st)]][["SLR"]] <- tmp
 } 
 
