@@ -1,0 +1,9 @@
+ID,NAME,LAT,LONG,ELEVATION
+7,Kebele_wind_7,16.3,46.8,150
+11,Kebele_wind_11,16.4,46.7,150
+12,Kebele_wind_12,16.4,46.8,150
+21,Kebele_wind_21,16.5,46.6,150
+22,Kebele_wind_22,16.5,46.7,150
+23,Kebele_wind_23,16.5,46.8,150
+
+

@@ -1,0 +1,9 @@
+ID,NAME,LAT,LONG,ELEVATION
+7,Kebele_prec_7,16.3,46.8,150
+11,Kebele_prec_11,16.4,46.7,150
+12,Kebele_prec_12,16.4,46.8,150
+21,Kebele_prec_21,16.5,46.6,150
+22,Kebele_prec_22,16.5,46.7,150
+23,Kebele_prec_23,16.5,46.8,150
+
+
