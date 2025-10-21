@@ -152,7 +152,7 @@ prepare_water_objects <- function(vct_path) {
     res  <- read_sf(paste(vct_path, 'res.shp', sep = '/'))
     if (! 'id_sel' %in% names(res)) {
       res <- res %>%
-        rename(id_sel = id) %>%
+        dplyr::rename(id_sel = id) %>%
         select(-type) %>%
         mutate(id = 1:nrow(.),
                name = create_names(id, 'res'),
@@ -168,7 +168,7 @@ prepare_water_objects <- function(vct_path) {
     cha  <- read_sf(paste(vct_path, 'channel.shp', sep = '/'))
     if (! 'id_sel' %in% names(cha)) {
       cha <- cha %>%
-        rename(id_sel = id)
+        dplyr::rename(id_sel = id)
       
       if(!is.null(res)) {
         cha <- cha %>% 

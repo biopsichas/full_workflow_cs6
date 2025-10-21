@@ -72,7 +72,7 @@ check_layer_attributes <- function(layer, type_to_lower) {
   # Include if clause to be compatible with old version of land layer columns
   if ('drainage' %in% colnames(layer)) {
     layer <- layer %>% 
-      rename(cha_id = drainage) %>% 
+      dplyr::rename(cha_id = drainage) %>% 
       mutate(cha_id = ifelse(cha_id <= 0 | is.na(cha_id), NA, cha_id)) %>% 
       mutate(flow = ifelse(!is.na(cha_id), 'til', NA), .after = cha_id) 
   }

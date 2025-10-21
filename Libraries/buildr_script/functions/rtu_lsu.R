@@ -19,7 +19,7 @@ build_rout_input <- function(data_path) {
   
   rout_unit_con <- hru_con %>%
     mutate(name   = str_replace(name, 'hru', 'rtu')) %>%
-    rename(rtu_id = hru_id)
+    dplyr::rename(rtu_id = hru_id)
   
   rout_unit_ele <- tibble(
     id      = hru_con$id,
@@ -75,7 +75,7 @@ build_rout_con_out <- function(data_path) {
                         frac = 1)
   
   rout_con <- connect_ids %>%
-    rename(rtu_con_id = id_from, frac = flow_frc, obj_id = id_to) %>%
+    dplyr::rename(rtu_con_id = id_from, frac = flow_frc, obj_id = id_to) %>%
     bind_rows(., aqu_connect) %>% 
     arrange(rtu_con_id) %>% 
     mutate(id = 1:nrow(.)) %>%
@@ -100,7 +100,7 @@ build_rout_con_out <- function(data_path) {
         select(id, id_sel) %>% 
         group_by(id_sel) %>% 
         summarise(id = id[1], .groups = 'drop') %>% 
-        rename(cha_id = id_sel, obj_id = id)
+        dplyr::rename(cha_id = id_sel, obj_id = id)
       
       hru_drn <- hru %>% 
         st_drop_geometry() %>% 
@@ -110,7 +110,7 @@ build_rout_con_out <- function(data_path) {
       rout_con_tile <- hru_drn %>% 
         left_join(., cha_ids, by = 'cha_id') %>% 
         select(-cha_id) %>% 
-        rename(rtu_con_id = id) %>% 
+        dplyr::rename(rtu_con_id = id) %>% 
         mutate(id = NA, order = NA, obj_typ = 'sdc', hyd_typ = 'til', frac = 1) %>% 
         select(id, order, obj_typ, obj_id, hyd_typ, frac, rtu_con_id)
       

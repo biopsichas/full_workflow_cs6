@@ -289,7 +289,7 @@ date_to_ymd <- function(tbl) {
 #'
 update_ymd_cols <- function(tbl, int) {
   if('day' %in% colnames(tbl)) {
-    tbl <- rename(tbl, day_mo = day)
+    tbl <- dplyr::rename(tbl, day_mo = day)
   }
   if (int == 'const') {
     tbl$yr <- 1

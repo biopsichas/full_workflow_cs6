@@ -37,7 +37,7 @@ add_wetlands <- function(data_path, wetland_landuse) {
       as_tibble(.) %>% 
       filter(., !is.na(surf_stor_id)) %>% 
       select(., surf_stor_id, name) %>% 
-      rename(., id = surf_stor_id) %>% 
+      dplyr::rename(., id = surf_stor_id) %>% 
       mutate(., name = str_replace(name, 'hru', 'wet')) %>% 
       mutate(init_id = 2,
              hyd_id = id, 

@@ -51,7 +51,7 @@ build_landuse <- function(data_path) {
     group_by(lu_mgt_id) %>%
     summarise(landuse = landuse[1]) %>%
     mutate(type = ifelse(landuse %in% urban_types, 'urban_urb', NA)) %>%
-    rename(id = lu_mgt_id,
+    dplyr::rename(id = lu_mgt_id,
            name = landuse) %>%
     mutate(name = paste0(name, '_lum'),
            cal_group = NA_integer_,

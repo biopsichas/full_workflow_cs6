@@ -68,7 +68,7 @@ get_land_connections_as_lines <- function(buildr_data_path, buildr_sqlite_path, 
   rout <- read_db_tbl(buildr_sqlite_path, 'rout_unit_con_out') %>%
     filter(., obj_typ %in% c('ru', 'sdc', 'res')) %>%
     select(id, rtu_con_id, obj_id, obj_typ, hyd_typ, frac) %>%
-    rename(from_id = rtu_con_id, to_id = obj_id)
+    dplyr::rename(from_id = rtu_con_id, to_id = obj_id)
 
   rout_con_lines <- get_line_tbl(rout, hru_centroids, hru_centroids, 'ru')
 

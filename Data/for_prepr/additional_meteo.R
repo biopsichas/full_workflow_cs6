@@ -12,12 +12,12 @@ read_meteo_file <- function(txt_file){
   start_date <- as.Date(substr(names(y[1]), 2, 9), format = "%Y%m%d")
   date_seq <- seq(from = start_date, by = "day", length.out = dim(y)[1])
   yy <- y %>%
-    rename(value = 1) %>%
+    dplyr::rename(value = 1) %>%
     mutate(DATE = date_seq)
   if(dim(y)[2] == 1){
     yy <- select(yy, DATE, value)
   } else if (dim(y)[2] == 2){
-    yy <- rename(yy, TMP_MAX = 1, TMP_MIN = 2) %>%
+    yy <- dplyr::rename(yy, TMP_MAX = 1, TMP_MIN = 2) %>%
       select(DATE, TMP_MIN, TMP_MAX)
   } else {
     stop("Something wrong with the data format")
@@ -62,7 +62,7 @@ plot_weather(met_lst, "TMP_MIN")
 # Add relative humidity data
 for(st in c('7', '11', '12', '21', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_hum_', st, ".txt")) |> 
-    rename(RELHUM = value) |> 
+    dplyr::rename(RELHUM = value) |> 
     mutate(RELHUM = ifelse(RELHUM > 1, RELHUM/100, RELHUM)) |> 
     mutate(RELHUM = ifelse(RELHUM < 0 | RELHUM > 1, -99, RELHUM)) |> 
     mutate(RELHUM = ifelse(is.na(RELHUM), -99, RELHUM))
@@ -74,7 +74,7 @@ plot_weather(met_lst, "RELHUM")
 # Add precipitation data
 for(st in c('7', '11', '12', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_prec_', st, ".txt")) |> 
-    rename(PCP = value) |> 
+    dplyr::rename(PCP = value) |> 
     mutate(PCP = as.numeric(PCP)) |> 
     mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
     mutate(PCP = ifelse(is.na(PCP), -99, PCP))
@@ -82,21 +82,21 @@ for(st in c('7', '11', '12', '22', '23')){
 }
 
 tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Lenti-Mahomfa_P.txt')) |> 
-  rename(PCP = value) |> 
+  dplyr::rename(PCP = value) |> 
   mutate(PCP = as.numeric(PCP)) |> 
   mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
   mutate(PCP = ifelse(is.na(PCP), -99, PCP))
 met_lst[["data"]][[paste0("ID4")]][["PCP"]] <- tmp
 
 tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Redics_P.txt')) |> 
-  rename(PCP = value) |> 
+  dplyr::rename(PCP = value) |> 
   mutate(PCP = as.numeric(PCP)) |> 
   mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
   mutate(PCP = ifelse(is.na(PCP), -99, PCP))
 met_lst[["data"]][[paste0("ID5")]][["PCP"]] <- tmp
 
 tmp <- read_meteo_file(paste0(d_pth, 'Kebele_Szilvágy_P.txt')) |> 
-  rename(PCP = value) |> 
+  dplyr::rename(PCP = value) |> 
   mutate(PCP = as.numeric(PCP)) |> 
   mutate(PCP = ifelse(PCP < 0 | PCP > 200, -99, PCP)) |>
   mutate(PCP = ifelse(is.na(PCP), -99, PCP))
@@ -108,7 +108,7 @@ plot_weather(met_lst, "PCP", "month", "sum")
 # Add wind speed data
 for(st in c('7', '11', '12', '21', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_wind_', st, ".txt")) |> 
-    rename(WNDSPD = value) |> 
+    dplyr::rename(WNDSPD = value) |> 
     mutate(WNDSPD = as.numeric(WNDSPD)) |>
     mutate(WNDSPD = ifelse(WNDSPD < 0 | WNDSPD > 30, -99, WNDSPD)) |>
     mutate(WNDSPD = ifelse(is.na(WNDSPD), -99, WNDSPD))
@@ -123,7 +123,7 @@ plot_weather(met_lst, "WNDSPD", "month", "mean")
 # Add solar radiation data
 for(st in c('7', '11', '12', '21', '22', '23')){
   tmp <- read_meteo_file(paste0(d_pth, 'Kebele_rad_', st, ".txt")) |> 
-    rename(SLR = value) |> 
+    dplyr::rename(SLR = value) |> 
     mutate(SLR = as.numeric(SLR)) |> 
     mutate(SLR = ifelse(SLR < 0 | SLR > 50, -99, SLR)) |>
     mutate(SLR = ifelse(is.na(SLR), -99, SLR))
