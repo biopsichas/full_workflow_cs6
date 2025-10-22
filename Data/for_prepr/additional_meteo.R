@@ -143,8 +143,8 @@ met_lst <- readRDS("Data/for_prepr/meteo_data_plus.rds")
 ## Transform stations to projected CRS for interpolation
 met_lst$stations <- st_transform(met_lst$stations, 3794)
 
-data_path <- "Data/for_prepr/"
-basin_path <- paste0(data_path, "for_buildr/CS6_WatBoundary.shp")
+data_path <- "Data/for_buildr/"
+basin_path <- paste0(data_path, "CS6_WatBoundary.shp")
 DEM_path <- paste0(data_path, "dem_copernicus.tif")
 
 met_lst_int <- SWATprepR::interpolate(met_lst, basin_path, DEM_path, 3000) 

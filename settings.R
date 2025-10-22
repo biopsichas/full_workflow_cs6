@@ -15,9 +15,9 @@ data_path <- "Data"
 lib_path <- "Libraries"
 
 ##Starting year for model setup
-st_year <-  1998
+st_year <-  2001
 ##End year for the model setup
-end_year <- 2021
+end_year <- 2020
 
 ## Paths to input data
 
