@@ -138,22 +138,50 @@ saveRDS(met_lst, "Data/for_prepr/meteo_data_plus.rds")
 ##------------------------------------------------------------------------------
 ## For interpolation
 ##------------------------------------------------------------------------------
+library(mapview)
 
+## Load the latest meteorological data
 met_lst <- readRDS("Data/for_prepr/meteo_data_plus.rds")
-## Transform stations to projected CRS for interpolation
-met_lst$stations <- st_transform(met_lst$stations, 3794)
 
+## Set the paths
 data_path <- "Data/for_buildr/"
 basin_path <- paste0(data_path, "CS6_WatBoundary.shp")
 DEM_path <- paste0(data_path, "dem_copernicus.tif")
+basin <- st_read(basin_path) |> st_transform(4326)
 
-met_lst_int <- SWATprepR::interpolate(met_lst, basin_path, DEM_path, 3000) 
+## Visual check of the existing stations and the basin
+mapview(met_lst$stations) + mapview(basin)
 
-# Visual check of the
+## Transform stations to projected CRS for interpolation (should be in meters)
+met_lst$stations <- met_lst$stations %>% 
+  st_transform(3794) %>% 
+  mutate(Long = st_coordinates(.)[, 1], Lat  = st_coordinates(.)[, 2])
+st_crs(met_lst$stations)
+
+# Interpolate meteorological data to selected grid
+print(paste0("SWATprepR version should be not earlier than 1.0.12, currectly installed version is ", 
+             as.character(packageVersion("SWATprepR"))))
+met_lst_int <- SWATprepR::interpolate(met_lst, basin_path, DEM_path, 2000) 
+
+# Visual check of the interpolated stations and the basin
 stations <- st_transform(met_lst_int$stations, 4326)
-mapview(stations) + mapview(st_read(basin_path) |> st_transform(4326))
+mapview(stations) + mapview(basin)
 
+# Plot some of the interpolated weather variables
+plot_weather(met_lst_int, "PCP", "year", "sum")
 plot_weather(met_lst_int, "PCP")
+plot_weather(met_lst_int, "TMP_MAX")
+plot_weather(met_lst_int, "TMP_MIN")
+plot_weather(met_lst_int, "RELHUM")
+plot_weather(met_lst_int, "WNDSPD")
+plot_weather(met_lst_int, "SLR")
+
+# Converting back coordinates
+met_lst_int$stations <- met_lst_int$stations %>% 
+  st_transform(4326) %>% 
+  mutate(Long = st_coordinates(.)[, 1], Lat  = st_coordinates(.)[, 2])
+st_crs(met_lst_int$stations)
+# Save the interpolated meteorological data
 saveRDS(met_lst_int, paste0(data_path, "meteo_data_int.rds"), compress = "xz")
 
 
