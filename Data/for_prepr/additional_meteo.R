@@ -182,6 +182,6 @@ met_lst_int$stations <- met_lst_int$stations %>%
   mutate(Long = st_coordinates(.)[, 1], Lat  = st_coordinates(.)[, 2])
 st_crs(met_lst_int$stations)
 # Save the interpolated meteorological data
-saveRDS(met_lst_int, paste0(data_path, "meteo_data_int.rds"), compress = "xz")
+saveRDS(met_lst_int, paste0("Data/for_prepr/meteo_data_int.rds"), compress = "xz")
 
 
