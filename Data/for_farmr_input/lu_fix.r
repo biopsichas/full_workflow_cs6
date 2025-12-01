@@ -45,7 +45,7 @@ land <- land_sf  %>%
 
 lu_sf_w <- land_sf %>% 
   select(-id) %>% 
-  dplyr::rename(lu = type) %>% 
+  rename(lu = type) %>% 
   select(lu, everything())
 
 write_sf(land, "G:/CS6/full_workflow_cs6/Data/for_buildr/land_update.shp")

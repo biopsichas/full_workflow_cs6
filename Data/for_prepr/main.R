@@ -9,12 +9,12 @@ read_meteo_file <- function(txt_file){
   start_date <- as.Date(substr(names(y[1]), 2, 9), format = "%Y%m%d")
   date_seq <- seq(from = start_date, by = "day", length.out = dim(y)[1])
   yy <- y %>%
-    dplyr::rename(value = 1) %>%
+    rename(value = 1) %>%
     mutate(DATE = date_seq)
   if(dim(y)[2] == 1){
     yy <- select(yy, DATE, value)
   } else if (dim(y)[2] == 2){
-    yy <- dplyr::rename(yy, TMP_MAX = 1, TMP_MIN = 2) %>%
+    yy <- rename(yy, TMP_MAX = 1, TMP_MIN = 2) %>%
       select(DATE, TMP_MIN, TMP_MAX)
   } else {
     stop("Something wrong with the data format")
@@ -40,7 +40,7 @@ met_lst[["stations"]] <- stations_df
 
 
 hmd <- read_meteo_file(paste0(my_path, "Len_hmd.txt")) %>%
-  dplyr::rename(RELHUM = value) %>%
+  rename(RELHUM = value) %>%
   mutate(RELHUM = ifelse(RELHUM > 1, RELHUM/100, RELHUM))
 
 ggplot(hmd, aes(x = DATE, y = RELHUM)) +
@@ -51,10 +51,10 @@ ggplot(hmd, aes(x = DATE, y = RELHUM)) +
 met_lst[["data"]][["ID1"]][["RELHUM"]] <- hmd
 
 pcp2 <- read_meteo_file(paste0(my_path, "Kob_pcp.txt")) %>%
-  dplyr::rename(PCP = value)
+  rename(PCP = value)
 
 pcp1 <- read_meteo_file(paste0(my_path, "Len_pcp.txt")) %>%
-  dplyr::rename(PCP = value)
+  rename(PCP = value)
 
 ggplot(pcp1, aes(x = DATE, y = PCP)) +
   geom_line() +
@@ -75,7 +75,7 @@ met_lst[["data"]][["ID1"]][["TMP_MIN"]] <- tmp1[c("DATE", "TMP_MIN")]
 met_lst[["data"]][["ID1"]][["TMP_MAX"]] <- tmp1[c("DATE", "TMP_MAX")]
 
 wnd <- read_meteo_file(paste0(my_path, "Len_wnd.txt")) %>%
-  dplyr::rename(WNDSPD = value)
+  rename(WNDSPD = value)
 
 ggplot(wnd, aes(x = DATE, y = WNDSPD)) +
   geom_line() +
@@ -85,11 +85,11 @@ ggplot(wnd, aes(x = DATE, y = WNDSPD)) +
 met_lst[["data"]][["ID1"]][["WNDSPD"]] <- wnd
 
 slr <-  read_meteo_file(paste0(my_path, "Rak_slr.txt")) %>%
-  dplyr::rename(SLR = value)
+  rename(SLR = value)
 
 slr2 <-  read.table(paste0(my_path, "CS6_SLR.txt"), sep = "\t", header = TRUE) %>% 
   mutate(date = as.Date(date, format = "%Y-%m-%d")) %>% 
-  dplyr::rename(DATE = date, SLR = solar_radiation) %>% 
+  rename(DATE = date, SLR = solar_radiation) %>% 
   select(DATE, SLR)
 
 slr_comp <- bind_rows(slr %>% mutate(status = "original"), slr2 %>% mutate(status = "alternative"))

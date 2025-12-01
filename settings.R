@@ -15,9 +15,9 @@ data_path <- "Data"
 lib_path <- "Libraries"
 
 ##Starting year for model setup
-st_year <-  2001
+st_year <-  1998
 ##End year for the model setup
-end_year <- 2020
+end_year <- 2021
 
 ## Paths to input data
 
@@ -68,10 +68,10 @@ soil_data_path   <- paste0(out_path, buildr_data, 'Usersoil_Kobilje.csv')
 
 ## Land input vector layer path
 # land_path <- paste0(out_path, buildr_data, 'land.shp')
-land_path <- paste0(out_path, buildr_data, 'land_update.shp')
+land_path <- paste0(out_path, buildr_data, 'land_update_MRE.shp')
 
 ## Channel input vector layer path 
-channel_path <- paste0(out_path, buildr_data, 'CS6_Streams_update.shp')
+channel_path <- paste0(out_path, buildr_data, 'CS6_Streams_update_MRE.shp')
 # channel_path <- paste0(out_path, buildr_data, "Pesnica_full_streams_reduced.shp")
 
 ## Catchment boundary vector layer path, all layers will be masked by the
@@ -79,7 +79,8 @@ channel_path <- paste0(out_path, buildr_data, 'CS6_Streams_update.shp')
 basin_path <- bound_path <- paste0(out_path, buildr_data, 'CS6_WatBoundary.shp')
 
 ## Path to point source location layer
-point_path <- paste0(out_path, buildr_data, 'WWTP.shp')
+point_path <- NULL
+# point_path <- paste0(out_path, buildr_data, 'WWTP.shp')
 
 # Settings ---------------------------------------------------------
 ## Project layers
