@@ -1,9 +1,7 @@
 ID,NAME,LAT,LONG,ELEVATION
-7,Kebele_hum_7,16.3,46.8,150
-11,Kebele_hum_11,16.4,46.7,150
-12,Kebele_hum_12,16.4,46.8,150
-21,Kebele_hum_21,16.5,46.6,150
-22,Kebele_hum_22,16.5,46.7,150
-23,Kebele_hum_23,16.5,46.8,150
-
-
+7,Kebele_hum_7,46.8,16.3,150
+11,Kebele_hum_11,46.7,16.4,150
+12,Kebele_hum_12,46.8,16.4,150
+21,Kebele_hum_21,46.6,16.5,150
+22,Kebele_hum_22,46.7,16.5,150
+23,Kebele_hum_23,46.8,16.5,150

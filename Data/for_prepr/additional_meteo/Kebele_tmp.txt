@@ -1,9 +1,9 @@
 ID,NAME,LAT,LONG,ELEVATION
-7,Kebele_tmp_7,16.3,46.8,150
-11,Kebele_tmp_11,16.4,46.7,150
-12,Kebele_tmp_12,16.4,46.8,150
-21,Kebele_tmp_21,16.5,46.6,150
-22,Kebele_tmp_22,16.5,46.7,150
-23,Kebele_tmp_23,16.5,46.8,150
+7,Kebele_tmp_7,46.8,16.3,150
+11,Kebele_tmp_11,46.7,16.4,150
+12,Kebele_tmp_12,46.8,16.4,150
+21,Kebele_tmp_21,46.6,16.5,150
+22,Kebele_tmp_22,46.7,16.5,150
+23,Kebele_tmp_23,46.8,16.5,150
 
 
